@@ -1,7 +1,8 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:image_picker/image_picker.dart';
 
 class GenPage extends StatefulWidget {
@@ -15,6 +16,7 @@ class _GenPageState extends State<GenPage> {
   final ImagePicker _picker = ImagePicker();
   XFile? _sourceImage;
   XFile? _styleImage;
+  final dio = Dio();
 
   final _genMenu = ["내 기기","Lambda", "EC2"];
   String? _selectedMenu = '';
@@ -44,6 +46,23 @@ class _GenPageState extends State<GenPage> {
       setState(() {
         _styleImage;
       });
+    }
+  }
+
+  Future<void> _genButtonClick()async{
+    dio.options.baseUrl = "https://xat9ent0p7.execute-api.us-east-1.amazonaws.com/stage";
+    dynamic styleData = _styleImage!.path;
+    dynamic sourceData = _sourceImage!.path;
+    dynamic type = _sourceImage!.runtimeType;
+    print("타입!!:$type");
+    final formData = FormData.fromMap({
+      "content_image": await MultipartFile.fromFile(sourceData),
+      "style_image": await MultipartFile.fromFile(styleData),
+    });
+    try {
+      final response = await dio.post('/images', data: formData);
+    }catch(e){
+      print('에러어어어어어어: $e');
     }
   }
 
@@ -120,7 +139,7 @@ class _GenPageState extends State<GenPage> {
           ),
 
           ElevatedButton(
-            onPressed: (){},
+            onPressed: _genButtonClick,
             child: const Text("Generate"),
           )
         ],
