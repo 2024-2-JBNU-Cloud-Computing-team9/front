@@ -7,6 +7,7 @@ import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:jbnu_cloud_computing_project/pages/resultPage.dart';
 
 class GenPage extends StatefulWidget {
   const GenPage({super.key});
@@ -53,49 +54,6 @@ class _GenPageState extends State<GenPage> {
     }
   }
 
-  /*Future<void> _genButtonClick() async {
-    dio.options.baseUrl = "http://3.210.19.76:8080";
-
-    if (_styleImage == null || _sourceImage == null) {
-      print('스타일 이미지와 콘텐츠 이미지를 모두 선택해주세요.');
-      return;
-    }
-
-    final styleData = _styleImage!.path;
-    final sourceData = _sourceImage!.path;
-
-    final formData = FormData.fromMap({
-      "content_image": await MultipartFile.fromFile(
-        sourceData,
-      ),
-      "style_image": await MultipartFile.fromFile(
-        styleData,
-      ),
-    });
-
-    try {
-      final response = await dio.post('/images', data: formData);
-      print('업로드 성공: $response');
-    } on DioException catch (e) {
-      print('오류 발생: ${e.response?.statusCode}');
-      print('오류 내용: ${e.response?.data}');
-    }
-  }*/
-
-  /*Future<void> _genButtonClick() async {
-    final url = Uri.parse('http://3.210.19.76:8080/images');
-    final request = http.MultipartRequest('POST', url)
-      ..files.add(await http.MultipartFile.fromPath('content_image', _sourceImage!.path))
-      ..files.add(await http.MultipartFile.fromPath('style_image', _styleImage!.path));
-
-    try {
-      final response = await request.send();
-      print("리스폰스!!!!:${response}");
-    } catch (e) {
-      print("에러!!!!!!!!!!: $e");
-    }
-
-  }*/
 
   Future<void> _genButtonClick() async {
     final url = Uri.parse('http://3.210.19.76:8080/images');
@@ -112,9 +70,9 @@ class _GenPageState extends State<GenPage> {
     try {
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
-          body: body
-      );
-      print("리스폰스!!!!:${response}");
+          body: body,
+      ).timeout(const Duration(seconds: 30));
+      print("리스폰스!!!!:${response.body}");
     } catch (e) {
       print("에러!!!!!!!!!!: $e");
     }
@@ -217,7 +175,7 @@ class _GenPageState extends State<GenPage> {
           ElevatedButton(
             onPressed: _genButtonClick,
             child: const Text("Generate"),
-          )
+          ),
         ],
       ),
     );
