@@ -88,6 +88,10 @@ class _GenPageState extends State<GenPage> {
 
   }
 
+  // void test(){
+  //   String img64 = '';
+  //   Get.to(ResultPage(img64: img64));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -186,6 +190,11 @@ class _GenPageState extends State<GenPage> {
             onPressed: _genButtonClick,
             child: const Text("Generate"),
           ),
+
+          // ElevatedButton(
+          //   onPressed: test,
+          //   child: const Text("test"),
+          // ),
         ],
       ),
     );
