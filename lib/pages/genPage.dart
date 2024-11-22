@@ -22,6 +22,7 @@ class _GenPageState extends State<GenPage> {
   XFile? _styleImage;
   final dio = Dio();
   double alpha = 0.5;
+  bool _wait = false;
 
   final _genMenu = ["내 기기","Lambda", "EC2"];
   String? _selectedMenu = '';
@@ -56,7 +57,7 @@ class _GenPageState extends State<GenPage> {
 
 
   Future<void> _genButtonClick() async {
-    final url = Uri.parse('http://3.210.19.76:8080/images');
+    final url = Uri.parse('http://54.225.194.185:8080/images');
 
     String source64 = base64Encode(await _sourceImage!.readAsBytes());
     String style64 = base64Encode(await _styleImage!.readAsBytes());
@@ -68,11 +69,19 @@ class _GenPageState extends State<GenPage> {
     var body = json.encode(data);
 
     try {
+      setState(() {
+        _wait = true;
+      });
       final response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: body,
-      ).timeout(const Duration(seconds: 30));
-      print("리스폰스!!!!:${response.body}");
+      );
+      setState(() {
+        _wait = false;
+      });
+      final responsJson = jsonDecode(response.body);
+      final img64 = responsJson['output_image'].toString();
+      Get.to(ResultPage(img64: img64));
     } catch (e) {
       print("에러!!!!!!!!!!: $e");
     }
@@ -172,6 +181,7 @@ class _GenPageState extends State<GenPage> {
             },
           ),
 
+          _wait ? const CircularProgressIndicator() :
           ElevatedButton(
             onPressed: _genButtonClick,
             child: const Text("Generate"),
