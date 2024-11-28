@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -207,7 +208,7 @@ class _GenPageState extends State<GenPage> {
                   ),
                   child: _sourceImage == null ?
                       const Center(
-                          child: Text("Select Content Image",
+                          child: Text("변환할 이미지 선택",
                             style: TextStyle(color: Colors.grey, fontSize: 20),
                           )
                       ) :
@@ -228,11 +229,16 @@ class _GenPageState extends State<GenPage> {
                   ),
                   child: _styleBytes == null ?
                   const Center(
-                      child: Text("Select Style Image",
+                      child: Text("스타일 이미지 선택",
                         style: TextStyle(color: Colors.grey, fontSize: 20),
                       )
                   )  :
-                  Image.memory(_styleBytes!),
+                  ClipRect(
+                    child: ImageFiltered(
+                      imageFilter: ImageFilter.blur(sigmaX: 10-alpha*10, sigmaY: 10-alpha*10),
+                        child: Image.memory(_styleBytes!,fit: BoxFit.fitWidth,)
+                    ),
+                  ),
                 ),
               ),
             ],

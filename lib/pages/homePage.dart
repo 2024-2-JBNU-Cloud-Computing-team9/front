@@ -70,7 +70,6 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
                 ),
               ),
               children: [
@@ -101,8 +100,6 @@ class _HomePageState extends State<HomePage> {
 
           const SizedBox(height: 50), // 공간 추가
 
-          // 버튼을 1/3 지점으로 내리기 위한 Spacer
-          const Spacer(flex: 1),
 
           // 버튼
           ElevatedButton(
@@ -112,8 +109,6 @@ class _HomePageState extends State<HomePage> {
             child: const Text("이미지 변환"),
           ),
 
-          // Spacer를 통해 남은 공간 조정
-          const Spacer(flex: 2),
         ],
       ),
     );
