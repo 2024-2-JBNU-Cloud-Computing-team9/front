@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,12 +22,26 @@ class _GenPageState extends State<GenPage> {
   final ImagePicker _picker = ImagePicker();
   XFile? _sourceImage;
   XFile? _styleImage;
+  String? _source64;
+  String? _style64;
+  Uint8List? _styleBytes;
+
   final dio = Dio();
   double alpha = 0.5;
   bool _wait = false;
 
   final _genMenu = ["내 기기","Lambda", "EC2"];
   String? _selectedMenu = '';
+
+  final List<Map<String, dynamic>>_styles = [
+    {"image":"assets/images/styles/blueMountain.jpg"},
+    {"image":"assets/images/styles/Ocean.jpg"},
+    {"image":"assets/images/styles/sky.jpeg"},
+    {"image":"assets/images/styles/sunset.jpg"},
+    {"image":"assets/images/styles/wheat.jpg"},
+    {"image":"assets/images/styles/yellowMaple.jpg"},
+    {"image":"assets/images/gallery.png", "gallery":true},
+  ];
 
   @override
   void initState() {
@@ -39,6 +55,7 @@ class _GenPageState extends State<GenPage> {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery,);
     if(image != null){
       _sourceImage = image;
+      _source64 = base64Encode(await image.readAsBytes());
       setState(() {
         _sourceImage;
       });
@@ -46,24 +63,78 @@ class _GenPageState extends State<GenPage> {
   }
 
   Future<void> _getStyleImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery,);
-    if(image != null){
-      _styleImage = image;
+    Get.bottomSheet(
+        ListView(
+          children: [
+            const SizedBox(height: 20,),
+            GridView.builder(
+              shrinkWrap: true,
+                gridDelegate:
+                  const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                itemCount: _styles.length,
+                itemBuilder: (context, index){
+                  return GestureDetector(
+                    onTap: (){
+                      selectStyleImage(index);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 2, color: Colors.grey)
+                      ),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Image.asset("${_styles[index]['image']}",
+                              fit: BoxFit.cover,),
+                          ),
+                          if (_styles[index].containsKey("gallery"))
+                            const Text("갤러리에서 찾기"),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+            ),
+          ],
+        ),
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+    );
+
+  }
+
+  Future<void> selectStyleImage(int index) async {
+    if (_styles[index].containsKey("gallery")) {
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery,
+      );
+      if (image != null) {
+        _styleImage = image;
+        _styleBytes = await image.readAsBytes();
+        _style64 = base64Encode(await image.readAsBytes());
+        setState(() {
+          _styleBytes;
+        });
+      }
+      Get.back();
+    }
+    else{
+      final bytes = await rootBundle.load("${_styles[index]['image']}");
+      _styleBytes = bytes.buffer.asUint8List();
+      _style64 = base64Encode(bytes.buffer.asUint8List());
       setState(() {
-        _styleImage;
+        _styleBytes;
       });
+      Get.back();
     }
   }
 
-
   Future<void> _genButtonClick() async {
     final url = Uri.parse('http://54.225.194.185:8080/images');
-
-    String source64 = base64Encode(await _sourceImage!.readAsBytes());
-    String style64 = base64Encode(await _styleImage!.readAsBytes());
     Map data = {
-      'content_image': source64,
-      'style_image': style64,
+      'content_image': _source64,
+      'style_image': _style64,
       'alpha':alpha,
     };
     var body = json.encode(data);
@@ -88,10 +159,6 @@ class _GenPageState extends State<GenPage> {
 
   }
 
-  // void test(){
-  //   String img64 = '';
-  //   Get.to(ResultPage(img64: img64));
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -160,13 +227,13 @@ class _GenPageState extends State<GenPage> {
                           width: 2
                       )
                   ),
-                  child: _styleImage == null ?
+                  child: _styleBytes == null ?
                   const Center(
                       child: Text("Select Style Image",
                         style: TextStyle(color: Colors.grey, fontSize: 20),
                       )
                   )  :
-                  Image.file(File(_styleImage!.path)),
+                  Image.memory(_styleBytes!),
                 ),
               ),
             ],
