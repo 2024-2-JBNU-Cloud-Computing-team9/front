@@ -62,39 +62,42 @@ class _HomePageState extends State<HomePage> {
           ),
 
           // 팀원 소개 - 토글 기능
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: ExpansionTile(
-              title: Text(
-                "팀원 소개",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+          const SizedBox(
+            height: 500,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: ExpansionTile(
+                title: Text(
+                  "팀원 소개",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                children: [
+                  ListTile(
+                    title: Text(
+                      "1. 팀원 A",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    subtitle: Text("역할: 백엔드 개발\n특기: Flask, FastAPI"),
+                  ),
+                  ListTile(
+                    title: Text(
+                      "2. 팀원 B",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    subtitle: Text("역할: 프론트엔드 개발\n특기: Flutter, UI 디자인"),
+                  ),
+                  ListTile(
+                    title: Text(
+                      "3. 팀원 C",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    subtitle: Text("역할: 프로젝트 매니저\n특기: 문서 작성, 일정 관리"),
+                  ),
+                ],
               ),
-              children: [
-                ListTile(
-                  title: Text(
-                    "1. 팀원 A",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  subtitle: Text("역할: 백엔드 개발\n특기: Flask, FastAPI"),
-                ),
-                ListTile(
-                  title: Text(
-                    "2. 팀원 B",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  subtitle: Text("역할: 프론트엔드 개발\n특기: Flutter, UI 디자인"),
-                ),
-                ListTile(
-                  title: Text(
-                    "3. 팀원 C",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  subtitle: Text("역할: 프로젝트 매니저\n특기: 문서 작성, 일정 관리"),
-                ),
-              ],
             ),
           ),
 
