@@ -131,7 +131,7 @@ class _GenPageState extends State<GenPage> {
   }
 
   Future<void> _genButtonClick() async {
-    final url = Uri.parse('http://capstone-ALB-625441092.us-east-1.elb.amazonaws.com:8080/images');
+    final url = Uri.parse('http://44.212.129.143:8080/images');
     Map data = {
       'content_image': _source64,
       'style_image': _style64,
@@ -156,7 +156,10 @@ class _GenPageState extends State<GenPage> {
     } catch (e) {
       print("에러!!!!!!!!!!: $e");
       Get.snackbar("에러", "$e");
-      _wait = false;
+      setState(() {
+        _wait = false;
+      });
+
     }
 
   }
