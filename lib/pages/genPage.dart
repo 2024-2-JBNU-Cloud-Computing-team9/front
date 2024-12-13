@@ -164,7 +164,6 @@ class _GenPageState extends State<GenPage> {
 
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
