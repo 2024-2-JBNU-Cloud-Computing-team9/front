@@ -30,7 +30,7 @@ class _ResultPageState extends State<ResultPage> {
       appBar: AppBar(),
       body: Column(
         children: [
-          Row(
+          /*Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               OutlinedButton(
@@ -42,10 +42,17 @@ class _ResultPageState extends State<ResultPage> {
                 ),
               )
             ],
+          ),*/
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 100, 0, 100),
+            child: Center(
+              child: Image.memory(bytes),
+            ),
           ),
-          Center(
-            child: Image.memory(bytes),
-          ),
+          OutlinedButton(
+            onPressed: saveImage,
+            child: const Text("이미지 저장"),
+          )
         ],
       ),
     );

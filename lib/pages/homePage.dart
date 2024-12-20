@@ -17,10 +17,10 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          "클컴 팀플",
-          style: TextStyle(color: Colors.white),
+          "  클컴 팀플",
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white,
 
       ),
       body: Column(
@@ -43,17 +43,16 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    "팀 소개",
+                    "앱 소개",
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    "우리는 클라우드 컴퓨팅 프로젝트를 진행하는 팀입니다.\n"
-                        "프로그램을 통해 스타일 변환과 관련된 다양한 기능을 제공합니다.",
+                    " 콘텐츠 이미지와 스타일 이미지를 결합해 원하는 감성의 새로운 이미지를 생성하는 앱입니다.\n 클라우드 컴퓨팅을 활용해 빠르고 고품질의 이미지 처리를 제공하며, 누구나 간편하게 나만의 예술 작품을 만들 수 있습니다.",
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ],
@@ -63,7 +62,7 @@ class _HomePageState extends State<HomePage> {
 
           // 팀원 소개 - 토글 기능
           const SizedBox(
-            height: 500,
+            height: 400,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: ExpansionTile(
@@ -77,31 +76,38 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   ListTile(
                     title: Text(
-                      "1. 팀원 A",
+                      "박건",
                       style: TextStyle(fontSize: 16),
                     ),
-                    subtitle: Text("역할: 백엔드 개발\n특기: Flask, FastAPI"),
+                    subtitle: Text("역할 : 프론트엔드, 발표, 테스트 \n학번 : 20192307"),
                   ),
                   ListTile(
                     title: Text(
-                      "2. 팀원 B",
+                      "최현우",
                       style: TextStyle(fontSize: 16),
                     ),
-                    subtitle: Text("역할: 프론트엔드 개발\n특기: Flutter, UI 디자인"),
+                    subtitle: Text("역할 : 모델 구현, 백엔드\n학번 : 202011591"),
                   ),
                   ListTile(
                     title: Text(
-                      "3. 팀원 C",
+                      "정태우",
                       style: TextStyle(fontSize: 16),
                     ),
-                    subtitle: Text("역할: 프로젝트 매니저\n특기: 문서 작성, 일정 관리"),
+                    subtitle: Text("역할 : 백엔드\n학번 : 202212251"),
+                  ),
+                  ListTile(
+                    title: Text(
+                      "김민재",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    subtitle: Text("역할 : 프론트엔드, PPT\n학번 : 202212097"),
                   ),
                 ],
               ),
             ),
           ),
 
-          const SizedBox(height: 50), // 공간 추가
+          const SizedBox(height: 10), // 공간 추가
 
 
           // 버튼
@@ -109,7 +115,12 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               Get.to(const GenPage());
             },
-            child: const Text("이미지 변환"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+              minimumSize: const Size(150, 40)
+            ),
+            child: const Text("시작", style: TextStyle(fontSize: 18),),
           ),
 
         ],

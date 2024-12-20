@@ -30,7 +30,7 @@ class _GenPageState extends State<GenPage> {
   double alpha = 0.5;
   bool _wait = false;
 
-  final _genMenu = ["내 기기","Lambda", "EC2"];
+  //final _genMenu = ["내 기기","Lambda", "EC2"];
   String? _selectedMenu = '';
 
   final List<Map<String, dynamic>>_styles = [
@@ -46,9 +46,9 @@ class _GenPageState extends State<GenPage> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _selectedMenu = _genMenu[0];
-    });
+    // setState(() {
+    //   _selectedMenu = _genMenu[0];
+    // });
   }
 
   Future<void> _getSourceImage() async {
@@ -131,7 +131,7 @@ class _GenPageState extends State<GenPage> {
   }
 
   Future<void> _genButtonClick() async {
-    final url = Uri.parse('http://44.212.129.143:8080/images');
+    final url = Uri.parse('http://http://capstone-ALB-625441092.us-east-1.elb.amazonaws.com:8080/images');
     Map data = {
       'content_image': _source64,
       'style_image': _style64,
@@ -164,6 +164,11 @@ class _GenPageState extends State<GenPage> {
 
   }
 
+  // void testBtn(){
+  //   const img = 'iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAIAAADTED8xAAADMElEQVR4nOzVwQnAIBQFQYXff81RUkQCOyDj1YOPnbXWPmeTRef+/3O/OyBjzh3CD95BfqICMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMK0CMO0TAAD//2Anhf4QtqobAAAAAElFTkSuQmCC';
+  //   Get.to(ResultPage(img64: img));
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,10 +176,10 @@ class _GenPageState extends State<GenPage> {
       appBar: AppBar(
         title: const Text(
           "클컴 팀플",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.blue,
-        actions: [
+        backgroundColor: Colors.white,
+        /*actions: [
           DropdownButton(
             value: _selectedMenu,
             items: _genMenu.map(
@@ -189,83 +194,105 @@ class _GenPageState extends State<GenPage> {
             },
           )
 
-        ],
+        ],*/
       ),
 
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-
-                onTap: _getSourceImage,
-                child: Container(
-                  height: Get.height/4,
-                  width: Get.width/2,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 2
-                    )
-                  ),
-                  child: _sourceImage == null ?
-                      const Center(
-                          child: Text("변환할 이미지 선택",
-                            style: TextStyle(color: Colors.grey, fontSize: 20),
-                          )
-                      ) :
-                      Image.file(File(_sourceImage!.path)),
-
-                ),
-              ),
-              GestureDetector(
-                onTap: _getStyleImage,
-                child: Container(
-                  height: Get.height/4,
-                  width: Get.width/2,
-                  decoration: BoxDecoration(
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 40, 0, 40),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+            
+                  onTap: _getSourceImage,
+                  child: Container(
+                    height: Get.height/4,
+                    width: Get.width/2,
+                    decoration: BoxDecoration(
                       border: Border.all(
-                          color: Colors.grey,
-                          width: 2
+                        color: Colors.grey,
+                        width: 2
                       )
+                    ),
+                    child: _sourceImage == null ?
+                        const Center(
+                            child: Text("변환할 이미지 선택",
+                              style: TextStyle(color: Colors.grey, fontSize: 20),
+                            )
+                        ) :
+                        Image.file(File(_sourceImage!.path)),
+            
                   ),
-                  child: _styleBytes == null ?
-                  const Center(
-                      child: Text("스타일 이미지 선택",
-                        style: TextStyle(color: Colors.grey, fontSize: 20),
-                      )
-                  )  :
-                  ClipRect(
-                    child: ImageFiltered(
-                      imageFilter: ImageFilter.blur(sigmaX: 10-alpha*10, sigmaY: 10-alpha*10),
-                        child: Image.memory(_styleBytes!,fit: BoxFit.fitWidth,)
+                ),
+                GestureDetector(
+                  onTap: _getStyleImage,
+                  child: Container(
+                    height: Get.height/4,
+                    width: Get.width/2,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.grey,
+                            width: 2
+                        )
+                    ),
+                    child: _styleBytes == null ?
+                    const Center(
+                        child: Text("스타일 이미지 선택",
+                          style: TextStyle(color: Colors.grey, fontSize: 20),
+                        )
+                    )  :
+                    ClipRect(
+                      child: ImageFiltered(
+                        imageFilter: ImageFilter.blur(sigmaX: 10-alpha*10, sigmaY: 10-alpha*10),
+                          child: Image.memory(_styleBytes!,fit: BoxFit.fitWidth,)
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
 
 
-          Slider(
-            value: alpha,
-            max: 1,
-            label: alpha.toString(),
-            divisions: 10,
-            onChanged: (value){
-              setState(() {
-                alpha = value;
-              });
-            },
+
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 80, 0, 30),
+            child: Slider(
+              value: alpha,
+              max: 1,
+              label: alpha.toString(),
+              divisions: 10,
+              onChanged: (value){
+                setState(() {
+                  alpha = value;
+                });
+              },
+              activeColor: Colors.blueAccent,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(0, 10, 0, 100),
+            child: Text("알파값 설정"),
           ),
 
           _wait ? const CircularProgressIndicator() :
           ElevatedButton(
             onPressed: _genButtonClick,
-            child: const Text("Generate"),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                minimumSize: const Size(150, 40),
+            ),
+            child: const Text("이미지 변환"),
           ),
+
+          /*ElevatedButton(
+            onPressed: testBtn,
+            child: const Text("test"),
+          ),*/
 
           // ElevatedButton(
           //   onPressed: test,
